@@ -1,0 +1,112 @@
+/*
+Bidi / l10n
+- The bidi mixins are used to declare both the LTR and RTL values for
+  a property together and output appropriate declarations
+- This makes it easier to maintain the RTL version since you only have
+  to update values in one place.
+====================================================================== */
+
+/*
+    @mixin bidi
+    accepts: a list of lists - each list must have 3 or 4 values
+
+    A list with three properties overrides the ltr value in rtl locales
+    @include bidi(((float, left, right),))
+    LTR: float: left;
+    RTL: float: right;
+
+    A list with four properties overrides the ltr value in rtl locales
+    AND provides a new rtl only property value
+    @include bidi(((margin-right, 20px, margin-left, 0),))
+    LTR: margin-right: 10px;
+    RTL: margin-right: 0;
+         margin-left: 10px;
+
+    Example input:
+    .test {
+        @include bidi((
+            (float, left, right),
+            (margin-right, ($grid-spacing / 2), margin-left, 0),
+        ));
+    }
+
+    Example output:
+    .test {
+        float: left;
+        margin-right: 10px;
+    }
+    html[dir='rtl'] .test {
+        float: right;
+        margin-right: 0;
+        margin-left: 10px;
+    }
+}
+*/
+/* prettier-ignore */
+@mixin bidi($list) {
+    /* This change is based on https://github.com/sass/sass/issues/1873#issuecomment-152293725 */
+    #{if(&, "&", "*")} {
+        @each $property, $ltr-value, $inverse-val-or-prop, $inverse-value in $list {
+            @if type-of($ltr-value) == 'null' or type-of($inverse-val-or-prop) == 'null' {
+                @warn $list; /* I don't know why this won't output as part of the error */
+                @error 'Error processing @mixin bidi(), see previous warning for stack trace';
+                /*
+                    Trouble shooting:
+                    - Check that you have the right number of nested (((parentheses)))
+                    - Check that there is a trailing comma:
+                      @include bidi(((float, left, right),));
+                */
+            }
+            #{$property}: $ltr-value;
+        }
+    }
+
+    html[dir='rtl'] #{if(&, "&", "*")} {
+        @each $property, $ltr-value, $inverse-val-or-prop, $inverse-value in $list {
+            @if $inverse-value {
+                #{$property}: $inverse-value;
+                #{$inverse-val-or-prop}: $ltr-value;
+            }
+            @else {
+                #{$property}: $inverse-val-or-prop;
+            }
+        }
+    }
+}
+
+/*
+    @mixin bidi-value-vendorize
+    - adds vendor prefixes to property
+    - does not support multiple declarations
+    - does support !important with optional 4th parameter
+
+    Example input:
+
+    .test {
+        @include bidi-value-vendorize(transform, rotate(90deg), rotate(-90deg));
+    }
+
+    Example output:
+
+    .test {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        transform: rotate(90deg);
+    }
+    html[dir='rtl'] .test {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+}
+*/
+/* prettier-ignore */
+@mixin bidi-value-vendorize($prop, $ltr, $rtl, $make-important: false) {
+    $make-important: if($make-important, unquote('!important'), unquote(''));
+
+    @include vendorize($prop, $ltr $make-important);
+
+    html[dir='rtl'] & {
+        @include vendorize($prop, $rtl $make-important);
+    }
+}

@@ -1,0 +1,93 @@
+/*
+Prevent last child spacing
+====================================================================== */
+
+// prevents spacing of a given element if it's the last child
+@mixin prevent-last-child-spacing($element: "*", $property: "padding-bottom") {
+  @if ($element == "*") {
+    $element: unquote($element);
+  }
+
+  & > #{$element}:last-child {
+    #{$property}: 0;
+  }
+}
+
+@mixin prevent-last-child-bottom-spacing($element: "*") {
+  @include prevent-last-child-spacing($element, margin-bottom);
+  @include prevent-last-child-spacing($element, padding-bottom);
+}
+
+@mixin restrict-line-length {
+  box-sizing: border-box;
+  max-width: $max-line-length;
+}
+
+/* sets the base styles for messages (review, warning, error, notice, etc.) */
+@mixin set-message-base($remove-last-spacing: true) {
+  @include restrict-line-length();
+  overflow: hidden;
+  margin-bottom: $grid-spacing;
+  /* prettier-ignore */
+  @include bidi((
+        (border-left-width, $border-width, border-right-width, 0),
+        (border-left-style, solid, border-right-style, none),
+    ));
+  padding: ($grid-spacing / 2);
+
+  @if ($remove-last-spacing) {
+    @include prevent-last-child-bottom-spacing();
+  }
+}
+
+@mixin set-heading-font-family() {
+  font-family: $heading-font-family;
+}
+
+@mixin clearfix() {
+  clear: both;
+
+  &:after {
+    content: " ";
+    clear: both;
+    display: table;
+  }
+}
+
+@function -remify($value) {
+  $u: unit($value);
+  $v: 0;
+
+  @if $u == "px" {
+    $v: $value/$base-font-size * 1rem;
+  } @else {
+    $v: unit($value, u);
+  }
+
+  @return $v;
+}
+
+@mixin set-font-size($value) {
+  font-size: $value; // if this is px it will be the fallback for the rem value, otherwise it will be the only declaration
+
+  @if ($value != "inherit") {
+    // make sure we're working with px otherwise remify will just spit out what we spat out before
+    $u: unit($value);
+    @if $u == "px" {
+      font-size: -remify($value);
+    }
+  }
+}
+
+@mixin set-larger-font-size() {
+  @include set-font-size($base-bump-font-size);
+}
+
+/*
+coloured boxes
+-------------------------------------------------------------- */
+
+@mixin box-theme($color) {
+  background: #{map-get(map-get($colors-lookup, $color), "light")};
+  border-color: #{map-get(map-get($colors-lookup, $color), "medium")};
+}
