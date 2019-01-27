@@ -9,8 +9,10 @@
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "prod": "npm run webpack -- --env.mode production",
     "prod:compress": "npm run prod -- --env.presets compress",
+    "prod:analyze": "npm run prod -- --env.presets analyze",
+    "prod:compress-analyze": "npm run prod -- --env.presets compress,analyze",
     "dev": "npm run webpack-dev-server -- --env.mode development --hot",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "keywords": [
     "mdn",
@@ -45,6 +47,7 @@
     "svgo-loader": "2.2.0",
     "url-loader": "1.1.2",
     "webpack": "4.29.0",
+    "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.2.1",
     "webpack-dev-server": "3.1.14",
     "webpack-merge": "4.2.1"
