@@ -64,7 +64,7 @@ typings/
 .vscode
 
 # dist dir
-/dist/
+/static/
 
 # macOS
 .DS_Store
