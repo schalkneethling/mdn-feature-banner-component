@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`banner snapshot 1`] = `
+<div
+  className="column-callout callout-foundation"
+>
+  <a
+    href="https://donate.mozilla.org"
+  >
+    <span>
+      <p
+        className="callout-main-copy"
+      >
+        Mozilla
+        <span
+          className="callout-subtext"
+        >
+          Proudly non-profit. Donate before Dec 31.
+        </span>
+      </p>
+      <button
+        type="button"
+      >
+        Donate Now
+      </button>
+    </span>
+  </a>
+</div>
+`;
