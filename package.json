@@ -13,7 +13,9 @@
     "prod:compress-analyze": "npm run prod -- --env.presets compress,analyze",
     "dev": "npm run webpack-dev-server -- --env.mode development --hot",
     "test": "jest --silent",
-    "test:update": "jest --silent -u"
+    "test:update": "jest --silent -u",
+    "test:watch": "jest --silent --watch",
+    "test:coverage": "jest --silent --coverage"
   },
   "keywords": [
     "mdn",

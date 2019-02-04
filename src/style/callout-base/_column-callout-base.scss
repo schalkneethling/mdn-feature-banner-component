@@ -19,6 +19,14 @@ $callout-min-height: 170px;
     overflow: hidden;
     @include set-larger-font-size();
 
+    &:active,
+    &:focus,
+    &:hover,
+    &:link,
+    &:visited {
+      text-decoration: none;
+    }
+
     &:after {
       content: "";
       display: block;

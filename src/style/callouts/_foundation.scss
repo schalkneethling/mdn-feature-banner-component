@@ -2,24 +2,56 @@
 Foundation callout
 -------------------------------------------------------------- */
 
+.callout-standard a {
+  &:after {
+    height: 84px;
+    width: 90px;
+  }
+}
+
 .callout-foundation {
   background: $blue-light;
 
-  strong {
-    content: "";
+  span {
+    position: relative;
+    color: $text-color;
+    padding: 0;
+  }
+
+  .callout-main-copy {
+    margin-left: 5px;
+    margin-bottom: 12px;
+    @include set-font-size(2rem);
+    line-height: 1.2;
+
+    @media #{$mq-small-desktop-and-up} {
+      @include set-font-size(1.7rem);
+    }
+
+    @media #{$mq-tablet-only} {
+      @include set-font-size(1.5rem);
+    }
+  }
+
+  .callout-subtext {
     display: block;
-    height: 30px;
-    width: 109px;
-    margin-bottom: 2px;
-    background-image: url($logo-sprite-url);
-    background-size: 400px auto;
-    background-position: -91px -57px;
-    direction: ltr; // ltr should be set with negative text indent
-    text-indent: 100%;
-    overflow: hidden;
+    margin-top: 12px;
+    font-weight: normal;
   }
 
   a {
+    padding: $gutter-width;
+    min-height: 150px;
+
+    @media #{$mq-small-desktop-and-up} {
+      padding: 10px $gutter-width;
+    }
+
+    @media #{$mq-tablet-only} {
+      padding: 18px $gutter-width;
+      min-height: 130px;
+    }
+
     &:before {
       display: none;
       color: $text-color;
@@ -33,10 +65,6 @@ Foundation callout
       height: 84px;
       background-image: url($path-to-assets+"promos/home-foundation.png");
       background-size: 90px auto;
-    }
-
-    span {
-      color: $text-color;
     }
   }
 
