@@ -5,7 +5,7 @@ module.exports = () => ({
   devtool: "nosources-source-map",
   output: {
     path: path.join(__dirname, "../static"),
-    filename: "[name].[contenthash].js"
+    filename: "[name].[hash].js"
   },
   module: {
     rules: [

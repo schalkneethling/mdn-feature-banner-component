@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const webpackMerge = require("webpack-merge");
 
@@ -36,11 +38,15 @@ module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
           }
         ]
       },
-      entry: "./src/App.js",
-      output: {
-        filename: "bundle.js"
-      },
+      entry: [
+        "react-hot-loader/patch",
+        "webpack-dev-server/client?http://localhost:8080",
+        "webpack/hot/only-dev-server",
+        "./src/ClientApp.js"
+      ],
       plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NamedModulesPlugin(),
         new HTMLWebpackPlugin({
           title: "Featured Banner",
           template: "./src/tmpl/banner.html"
