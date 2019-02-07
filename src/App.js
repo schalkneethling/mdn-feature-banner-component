@@ -1,7 +1,9 @@
+// @flow
+
 import React from "react";
 
 import Banner from "./components/Banner";
-
+// $FlowFixMe
 import "./style/column-callout.scss";
 
 const App = () => (

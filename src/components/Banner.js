@@ -1,6 +1,14 @@
+// @flow
+
 import React from "react";
 
-const Banner = props => {
+const Banner = (props: {
+  customClasses: string,
+  targetURL: string,
+  calloutMainCopy: string,
+  calloutSubtext: string,
+  buttonCopy: string
+}) => {
   return (
     <div className={`column-callout ${props.customClasses}`}>
       <a href={props.targetURL}>
